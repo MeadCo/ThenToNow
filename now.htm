@@ -1,0 +1,84 @@
+<html>
+
+<head>
+
+<title>MeadCo's ScriptX</title>
+
+</head>
+
+<body onload="initView()">
+
+<!-- MeadCo Security Manager -->
+<object id="secmgr" viewastext style="display:none"
+  classid="clsid:5445be81-b796-11d2-b931-002018654e2e">
+  <param name="GUID" value="{C4DB5D29-BE52-46B9-9DDF-46A167170F81}" />
+  <param name="PATH" value="https://licenses.meadroid.com/download/{C4DB5D29-BE52-46B9-9DDF-46A167170F81}/mlf" />
+  <param name="REVISION" value="3" />
+  <param name="PerUser" value="true">
+</object>
+
+<!-- MeadCo ScriptX -->
+<object viewastext id="factory" style="display:none"
+  classid="clsid:1663ed61-23eb-11d2-b92f-008048fdd814">
+</object>
+
+<div style="font:bold 32pt courier new; text-align: justify; letter-spacing: -1px">
+
+For nearly 20 years MeadCo's ScriptX - now installed on many millions of Windows PCs - has enabled document authors to script print-time attributes such as margin sizes, orientation, HTML & standard headers and footers, paper source, target printer, prompt-free printing and much more ... <br><br>
+
+-> -> -></div>
+
+<!-- new UI -->
+<div>
+<button id="btn-print">Print</button>&nbsp;<button id="btn-preview">Preview</button>
+</div>
+
+<!-- scriptx.services requires jquery -->
+<script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+<!-- Add.on to scriptx.services compatibility -->
+<script src="//cdn.jsdelivr.net/gh/meadco/scriptx.print.client@1.4.9/dist/meadco-scriptxservices.min.js"
+	data-meadco-license="{C4DB5D29-BE52-46B9-9DDF-46A167170F81}"
+    data-meadco-server="http://localhost:41191"
+	data-meadco-license-path="warehouse"
+	data-meadco-license-revision="3"
+	data-meadco-syncinit="false"
+>
+</script>
+
+<!-- leave current script as is, it will work .. to minimise effort -->
+<script>
+function initView() {
+  console.log("initView");
+  factory.printing.enhancedFormatting.allPagesHeader =
+    "<div><center><img src='http://services.meadroid.com/images/sx-header.png'></center></div>";
+  factory.printing.enhancedFormatting.allPagesFooter =
+    "<div><center><img src='http://services.meadroid.com/images/sx-footer-final.png'></center></div>";
+  factory.printing.SetMarginMeasure(2) // set inches
+  factory.printing.header = ""
+  factory.printing.footer = ""
+  factory.printing.leftMargin = 1.0
+  factory.printing.topMargin = 1.5
+  factory.printing.rightMargin = 1.0
+  factory.printing.bottomMargin = 1.5
+}
+</script>
+
+<!-- new UI script -->
+<script type="text/javascript">
+$(window).on("load",function() {
+
+	console.log("Start view");
+	$("#btn-print").click(function() {
+		factory.printing.Print();
+	});
+
+	$("#btn-preview").click(function() {
+		factory.printing.Preview();
+	});
+});
+</script>
+
+</body>
+
+</html>
