@@ -6,7 +6,7 @@
 
 </head>
 
-<body onload="initView()">
+<body>
 
 <!-- MeadCo Security Manager -->
 <object id="secmgr" viewastext style="display:none"
@@ -33,13 +33,12 @@ For nearly 20 years MeadCo's ScriptX - now installed on many millions of Windows
 <button id="btn-print">Print</button>&nbsp;<button id="btn-preview">Preview</button>
 </div>
 
-<!-- scriptx.services requires jquery -->
+<!-- scriptx.services compatibility requires jquery -->
 <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
 
 <!-- leave current script as is, it will work .. to minimise effort -->
 <script>
 function initView() {
-  console.log("initView");
   factory.printing.enhancedFormatting.allPagesHeader =
     "<div><center><img src='http://services.meadroid.com/images/sx-header.png'></center></div>";
   factory.printing.enhancedFormatting.allPagesFooter =
@@ -59,6 +58,7 @@ function initView() {
 $(window).on("load",function() {
 
 	console.log("Start view");
+	initView();
 	$("#btn-print").click(function() {
 		factory.printing.Print();
 	});
