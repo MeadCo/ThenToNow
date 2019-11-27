@@ -16,7 +16,7 @@ Works with ScriptX.Add-on **and** ScriptX.Services: [now.htm](now.htm) having ma
 
 This work-through is discussed at [ScriptX.Services for Windows PC](https://scriptxservices.meadroid.com/OnWorkstation/HowTo) though simply by changing the values of attributes will work with any variation of [ScriptX.Services](https://scriptxservices.meadroid.com).
 
-To test and work with the sample code requires the use of a web server to host and serve the .htm files. Use of a simple node.js based server for delivering the files in a file system folder is discussed at [Developer walkthrough](https://scriptxservices.meadroid.com/OnWorkstation/DeveloperThenToNowSample).
+To test and work with the sample code requires the use of a web server to host and serve the .htm files via *localhost* (using http://127.0.0.1 will not work as it is not included in the evaluation license). Use of a simple node.js based server for delivering the files in a file system folder is discussed at [Developer walkthrough](https://scriptxservices.meadroid.com/OnWorkstation/DeveloperThenToNowSample).
 
 ## License
 
