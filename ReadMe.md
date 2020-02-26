@@ -6,13 +6,13 @@ This sample shows a simple work-through of taking code from:
 
 ## Then
 
-Works with ScriptX.Add-on only: [then.htm](then.htm) / [then-ui.htm](then-ui.htm)
+Works with ScriptX.Add-on only: [then.html](then.html) / [then-ui.html](then-ui.html)
 
 ### to
 
 ## Now
 
-Works with ScriptX.Add-on **and** ScriptX.Services: [now.htm](now.htm) having made a minimum number of changes.
+Works with ScriptX.Add-on **and** ScriptX.Services: [now.html](now.html) having made a minimum number of changes.
 
 ## Using the sample
 
