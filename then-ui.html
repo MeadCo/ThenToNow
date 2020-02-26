@@ -3,12 +3,23 @@
 <head>
 
 <title>MeadCo's ScriptX</title>
-
+<style type="text/css">
+html, body {
+font-family: Segoe,Lucida Grande,Lucida Sans,Verdana,sans-serif;
+margin: 24px;
+}
+.button-bar { margin-top: 12px }
+@media print {
+.button-bar { display: none; }
+}
+</style>
 </head>
 
-<body style="margin: 24px">
+<body>
 
 <!-- MeadCo Security Manager -->
+<!-- NOTE: A codebase would usually be included. -->
+<!-- The evaluation GUID is subject to change -->
 <object id="secmgr" viewastext style="display:none"
   classid="clsid:5445be81-b796-11d2-b931-002018654e2e">
   <param name="GUID" value="{370000ED-D40C-43D4-B3D3-F2E7D2EFF47D}" />
@@ -22,32 +33,21 @@
   classid="clsid:1663ed61-23eb-11d2-b92f-008048fdd814">
 </object>
 
-<h1>MeadCo's ScriptX</h1>
+<h1>MeadCo's ScriptX.Addon</h1>
 
-<div style="font:bold 12pt courier new; text-align: justify; letter-spacing: -1px">
+<div style="font-size: 14pt; line-height: 22pt;">
 For nearly 20 years MeadCo's ScriptX - now installed on many millions of Windows PCs - has 
 enabled document authors to script print-time attributes such as margin sizes, orientation, 
-HTML & standard headers and footers, paper source, target printer, prompt-free printing and much more ... <br><br>
-
+HTML & standard headers and footers, paper source, target printer, prompt-free printing and much more ...
 </div>
 
 <!-- new UI -->
-<div>
+<div class="button-bar">
 <button id="btn-print">Print</button>&nbsp;<button id="btn-preview">Preview</button>
 </div>
 
 <!-- scriptx.services compatibility requires jquery -->
 <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-
-<!-- Add.on to scriptx.services compatibility -->
-<script src="//cdn.jsdelivr.net/npm/scriptxprint-html@1/dist/meadco-scriptxservices.min.js"
-	data-meadco-license="{370000ED-D40C-43D4-B3D3-F2E7D2EFF47D}"
-    data-meadco-server="http://localhost:41191"
-	data-meadco-license-path="warehouse"
-	data-meadco-license-revision="0"
-	data-meadco-syncinit="true"
->
-</script>
 
 <!-- leave current script as is, it will work .. to minimise effort -->
 <script>
@@ -59,23 +59,17 @@ function initView() {
   factory.printing.SetMarginMeasure(2) // set inches
   factory.printing.header = ""
   factory.printing.footer = ""
-  factory.printing.leftMargin = 1.0
+  factory.printing.leftMargin = 0.75
   factory.printing.topMargin = 1.5
-  factory.printing.rightMargin = 1.0
+  factory.printing.rightMargin = 0.75
   factory.printing.bottomMargin = 1.5
 }
 </script>
 
 <!-- new UI script -->
 <script type="text/javascript">
-console.log(">>> Page script starting");
-// If ScriptX.Services client libraries have been loaded enable some more verbose logging for debugging purposes 
-if (typeof MeadCo === "object" ) {
-	console.log("enable verbose logging in ScriptX.Services");
-	MeadCo.logEnabled = true;
-}
-
 $(window).on("load",function() {
+
 	console.log("Start view");
 	initView();
 	$("#btn-print").click(function() {
