@@ -1,0 +1,125 @@
+<html>
+
+<head>
+
+<title>MeadCo's ScriptX</title>
+<style type="text/css">
+html, body {
+font-family: Segoe,Lucida Grande,Lucida Sans,Verdana,sans-serif;
+margin: 24px;
+}
+.button-bar { margin-top: 12px }
+@media print {
+.button-bar { display: none; }
+}
+</style>
+</head>
+
+<body>
+
+	<!-- MeadCo Security Manager : Ignored in modern browsers -->
+	<!-- NOTE: A codebase would usually be included. -->
+	<!-- The evaluation GUID is subject to change -->
+	<object id="secmgr" viewastext style="display:none"
+			classid="clsid:5445be81-b796-11d2-b931-002018654e2e">
+		<param name="GUID" value="{370000ED-D40C-43D4-B3D3-F2E7D2EFF47D}" />
+		<param name="PATH" value="https://licenses.meadroid.com/download/{370000ED-D40C-43D4-B3D3-F2E7D2EFF47D}/mlf" />
+		<param name="REVISION" value="0" />
+		<param name="PerUser" value="true">
+	</object>
+
+	<!-- MeadCo ScriptX : Ignored in modern browsers -->
+	<object viewastext id="factory" style="display:none"
+			classid="clsid:1663ed61-23eb-11d2-b92f-008048fdd814">
+	</object>
+
+	<h1>MeadCo's ScriptX :: Any browser</h1>
+
+	<div style="font-size: 14pt; line-height: 22pt;">
+		For nearly 20 years MeadCo's ScriptX - now installed on many millions of Windows PCs - has
+		enabled document authors to script print-time attributes such as margin sizes, orientation,
+		HTML & standard headers and footers, paper source, target printer, prompt-free printing and much more ...
+	</div>
+
+	<!-- new UI -->
+	<div class="button-bar">
+		<button id="btn-print">Print</button>&nbsp;<button id="btn-preview">Preview</button>
+	</div>
+
+	<!-- scriptx.services compatibility requires jquery -->
+	<script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+	<!-- javscript Add.on to Scriptx.Services compatibility -->
+	<!-- Connect to ScriptX.Services for Windows PC -->
+	<!-- Use the same evaluation GUID - it is subject to change -->
+	<script src="//cdn.jsdelivr.net/npm/scriptxprint-html@1/dist/meadco-scriptxservices.min.js"
+			data-meadco-server="http://127.0.0.1:41191"
+			data-meadco-syncinit="true"
+			data-meadco-license="{370000ED-D40C-43D4-B3D3-F2E7D2EFF47D}"
+			data-meadco-license-path="warehouse"
+			data-meadco-license-revision="0">
+	</script>
+
+	<!-- leave current script as is, it will work .. to minimise effort -->
+	<script>
+		function initView() {
+			factory.printing.enhancedFormatting.allPagesHeader =
+				"<div><center><img src='http://services.meadroid.com/images/sx-header.png'></center></div>";
+			factory.printing.enhancedFormatting.allPagesFooter =
+				"<div><center><img src='http://services.meadroid.com/images/sx-footer-final.png'></center></div>";
+			factory.printing.SetMarginMeasure(2) // set inches
+			factory.printing.header = ""
+			factory.printing.footer = ""
+			factory.printing.leftMargin = 0.75
+			factory.printing.topMargin = 1.5
+			factory.printing.rightMargin = 0.75
+			factory.printing.bottomMargin = 1.5
+		}
+	</script>
+
+	<!-- enable detailed logging and application UI for errors  -->
+	<script type="text/javascript">
+		console.log(">>> Page script starting");
+		// If ScriptX.Services client libraries have been loaded enable some more verbose logging for debugging purposes
+		if (typeof MeadCo === "object") {
+			console.log("enable verbose logging in ScriptX.Services");
+			MeadCo.logEnabled = true;
+		}
+
+		// If ScriptX.Services client libraries have been loaded then overload the error report functions
+		// to use the error reporting code for this application (for demonstration, we use simple javascript alert).
+		if (typeof MeadCo === "object" && typeof MeadCo.ScriptX === "object" && typeof MeadCo.ScriptX.Print === "object") {
+			// overload cloud print library report error
+			MeadCo.ScriptX.Print.reportServerError = function (errorTxt) {
+				console.error(errorTxt);
+				alert("ScriptX.Services error\n\n" + errorTxt);
+			}
+
+			MeadCo.ScriptX.Print.reportFeatureNotImplemented = function (featureDescription) {
+				var msg = "Sorry " + featureDescription +
+					" is not available yet with ScriptX.Services."
+
+				console.warn(msg);
+				alert(msg);
+			}
+		}
+	</script>
+
+	<!-- new UI script -->
+	<script type="text/javascript">
+		$(window).on("load", function () {
+			console.log("Start view");
+			initView();
+			$("#btn-print").click(function () {
+				factory.printing.Print();
+			});
+
+			$("#btn-preview").click(function () {
+				factory.printing.Preview();
+			});
+		});
+	</script>
+
+</body>
+
+</html>
