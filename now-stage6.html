@@ -124,6 +124,11 @@ margin: 24px;
 
     <!-- new UI script -->
     <script type="text/javascript">
+        function reportError(msg) {
+            console.error(msg);
+            alert(msg);
+        }
+
         $(window).on("load", function () {
             console.log("Start view");
             MeadCo.Licensing.IsLicensedAsync()
