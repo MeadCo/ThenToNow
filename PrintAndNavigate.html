@@ -1,10 +1,9 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
+    <link rel="stylesheet" type"text="" css"="" href="display.css">
+    <link rel="stylesheet" type"text="" css"="" href="print.css" media="print">
     <title>MeadCo's ScriptX</title>
-
     <style type="text/css">
         html, body {
             font-family: Segoe,Lucida Grande,Lucida Sans,Verdana,sans-serif;
@@ -51,13 +50,14 @@
 
     <!-- new UI -->
     <div class="button-bar">
-        <button id="btn-print">Print</button>&nbsp;<button id="btn-preview">Preview</button>&nbsp;<button id="btn-setup">Page Setup</button>
+        <button id="btn-print">Print and return to index</button>
     </div>
 
     <!-- scriptx.services compatibility requires jquery 3 -->
     <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
 
     <!-- Exemplar dialogs require Bootstrap 3.3 or 4.x. Use compiled and minified CSSc and javascript -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <!-- For async, a promise library is required for IE 11.
@@ -98,10 +98,14 @@
             factory.printing.topMargin = 1.5
             factory.printing.rightMargin = 0.75
             factory.printing.bottomMargin = 1.5
+
+            window.addEventListener("beforeunload", function (event) {
+                event.returnValue = "Printing is still in progress, are you sure you want to leave?";
+            });
         }
     </script>
 
-    <!-- enable detailed logging and application UI for errors  -->
+    <!-- enable detailed logging -->
     <script type="text/javascript">
         console.log(">>> Page script starting");
         // If ScriptX.Services client libraries have been loaded enable some more verbose logging for debugging purposes
@@ -138,32 +142,23 @@
 
         $(window).on("load", function () {
             console.log("Start view");
-            MeadCo.Licensing.IsLicensedAsync()
-                .then(function (l) {
-                    MeadCo.ScriptX.InitAsync()
+			MeadCo.Licensing.IsLicensedAsync()
+				.then(function (l) {
+					MeadCo.ScriptX.InitAsync()
                         .then(function () {
                             initView();
                             $("#btn-print").click(function () {
-                                factory.printing.Print(true);
-                            });
-
-                            $("#btn-preview").click(function () {
-                                factory.printing.Preview();
-                            });
-
-                            $("#btn-setup").click(function () {
-                                MeadCo.ScriptX.PageSetup2().then(function () {
-                                    console.log("Page setup changed by user");
-                                }).catch(function () { console.log("dialog closed"); });
+                                factory.printing.Print(false);
+                                window.location = 'index.html';
                             });
                         })
                         .catch(function (e) {
-                            reportError("Unable to initialise ScriptX: " + e)
-                        });
-                })
-                .catch(function (e) {
-                    reportError("Unable to use ScriptX License: " + e)
-                });
+					        reportError("Unable to initialise ScriptX: " + e)
+				        });
+				})
+			    .catch(function (e) {
+				    reportError("Unable to use ScriptX License: " + e)
+				});
         });
     </script>
 
